@@ -50,5 +50,6 @@ urlpatterns = [
     path('save_question', Staffviews.save_question, name="save_question"),
     path('selected_question/<str:exam_id>', Participantviews.selected_question, name="selected_question"),
     path('save_participant_changes', Participantviews.save_participant_changes, name="save_participant_changes"),
+    path('available_mock_test', Participantviews.available_mock_test, name="available_mock_test"),
    # path('', views.login_page,name="login_page"),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

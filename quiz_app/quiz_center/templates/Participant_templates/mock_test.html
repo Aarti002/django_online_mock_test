@@ -50,10 +50,10 @@
 					<nav class="main-menu">
 						<ul>
 							<li><a href="/available_mock_test">Available Mock Test</a></li>
-                            <li><a href="/add_competition">Add Mock Test</a></li>
+
 							<li><a href="/manage_participant">Registered Students</a></li>
 							<li><a href="/view_feedback">View Feedback</a></li>
-							<li><a href="/add_question">Add Question</a></li>
+
 						</ul>
 
 					</nav>
@@ -64,8 +64,8 @@
 		</div>
 	</header>
 	<div class="col-lg-12">
-				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="/staff_page">Home</a></li>
+				<ol class="breadcrumb float-sm-right bg-light">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
 					<li class="breadcrumb-item active"><a href="/logout_page">Logout</a> </li>
 				</ol>
 	</div>
@@ -76,50 +76,100 @@
 	<div class="page-info-section set-bg" data-setbg='{% static "img/page-bg/4.jpg" %}' style="height:280px;">
 		<div class="container">
 			<div class="site-breadcrumb">
-				<span>Participant Details</span>
+				<span>Mock Test Details</span>
 			</div>
 		</div>
 	</div>
 	<!-- Page info end -->
     <br>
-    <section class="content">
+
+	<section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <div class="card">
 
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
+				<div class="form-group">
+					{% if messages %}
+					{% for message in messages %}
+					{% if message.tags == 'warning' %}
+					<div class="alert alert-warning alert-dismissable" style="margin-top:10px">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{ message }}
+					</div>
+					<div class="card-body table-responsive p-0">
+                	<table class="table table-hover text-nowrap">
+                  	<thead>
                     <tr>
                       <th>ID</th>
-                      <th>First name</th>
-                      <th>Last name</th>
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>Address</th>
-                      <th>Gender</th>
-
-                      <th>Result</th>
+                      <th>Registered By</th>
+                      <th>Competition name</th>
+                      <th>About exam</th>
+					  <th>Appear now</th>
                     </tr>
                   </thead>
+
                   <tbody>
-                    {% for student in participants %}
+                    {% for test in tests %}
                   <tr>
-                    <td>{{ student.admin.id }}</td>
-                    <td>{{ student.admin.first_name }}</td>
-                    <td>{{ student.admin.last_name }}</td>
-                    <td>{{ student.admin.username }}</td>
-                    <td>{{ student.admin.email }}</td>
-                    <td>{{ student.address }}</td>
-                    <td>{{ student.gender }}</td>
-					<td>{{ student.result }}</td>
+                    <td>{{ test.id }}</td>
+                    <td>{{ test.staff_id.first_name }}  {{ test.staff_id.last_name }}</td>
+                    <td>{{ test.competition_name }}</td>
+                    <td>{{ test.about }}</td>
+					<td>
+					<button type="submit" class="btn btn-secondary">
+						<a href="" target="_blank">Take Test</a>
+					</button>
+					</td>
+
 				  </tr>
                   {% endfor %}
                   </tbody>
                 </table>
               </div>
+
+				{% endif %}
+					{% if message.tags == 'info' %}
+					<div class="alert alert-info alert-dismissable" style="margin-top:10px">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{ message }}
+					</div>
+					<div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Registered By</th>
+                      <th>Competition name</th>
+                      <th>About exam</th>
+					  <th>Appear now</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for test in tests %}
+                  <tr>
+                    <td>{{ test.id }}</td>
+                    <td>{{ test.staff_id.first_name }}  {{ test.staff_id.last_name }}</td>
+                    <td>{{ test.competition_name }}</td>
+                    <td>{{ test.about }}</td>
+					<td>
+					<button type="submit" class="btn btn-secondary">
+						<a href="/selected_question/{{ test.id }}" target="_blank">Take Test</a>
+					</button>
+					</td>
+
+				  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+					{% endif %}
+					{% endfor %}
+					{% endif %}
+				</div>
+
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -128,6 +178,9 @@
         <!-- /.row -->
       </div>
     </section>
+
+
+
 	<script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
 	<script src='{% static "js/bootstrap.min.js" %}'></script>
 	<script src='{% static "js/mixitup.min.js" %}'></script>

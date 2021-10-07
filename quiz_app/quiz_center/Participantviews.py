@@ -1,5 +1,5 @@
 import json
-
+import pyautogui as pag
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -136,3 +136,13 @@ def save_participant_changes(request):
         except:
             messages.error(request, "Failed to Edit Participant Details!")
             return HttpResponseRedirect(reverse("view_profile"))
+
+def available_mock_test(request):
+    tests=CompetitionType.objects.all()
+    print(request.user.user_type)
+    if request.user.user_type == "2":
+        messages.info(request, "You are a participant you can appear in test if you want!")
+        return render(request, "Participant_templates/mock_test.html", {"tests": tests})
+    else:
+        messages.warning(request, 'Seems you are not a participant you can not visit test page.')
+        return render(request, "Participant_templates/mock_test.html", {"tests": tests})
