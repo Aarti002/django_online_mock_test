@@ -138,7 +138,13 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = "quiz_center.CustomUser"
 AUTHENTICATION_BACKENDS=['quiz_center.EmailBackEnd.EmailBackEnd']
 
-EMAIL_BACKEND="django.core.mail.backends.filebased.EmailBackend"
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_HOST_USER="aartikumarisingh120@gmail.com"
+EMAIL_HOST_PASSWORD="aart001$%"
+EMAIL_PORT=587
+EMAIL_USER_TLS=True
+EMAIL_USER_SSL=False
 EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

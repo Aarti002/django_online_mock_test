@@ -8,7 +8,33 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 from quiz_center.EmailBackEnd import EmailBackEnd
 from quiz_center.models import CustomUser,CompetitionType,Staffs,FeedBack,Participants
+from django.core.mail import send_mail
 
+
+def home_page(request):
+    feedback = FeedBack.objects.all()
+    n = len(feedback)
+    nSlides = n // 3 + ceil((n / 3) - (n // 3))
+    allset = [[feedback, range(1, n), nSlides]]
+    if request.method == 'POST':
+        name=request.POST.get('full_name')
+        email = request.POST.get('full_email')
+        contact = request.POST.get('contact_no')
+        mssg = request.POST.get('message')
+        sub=request.POST.get('subject')
+        data={
+            'name':name,
+            'email':email,
+            'subject':sub,
+            'message':mssg,
+        }
+        message = '''
+        New Message: {}
+        
+        From: {}
+        '''.format(data['message'],data['email'])
+        send_mail(data['subject'],message,'',['aartikumarisingh120@gmail.com'])
+    return render(request,'home_page.html',{"feedback":feedback ,"nSlides":nSlides,"range":range(1,nSlides),"allset":allset})
 
 def index(request):
     competition=CompetitionType.objects.all()

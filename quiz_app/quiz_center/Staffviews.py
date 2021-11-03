@@ -19,6 +19,12 @@ def delete_staff(request,staff_id):
     return render(request, "hod_templates/manage_staff_template.html", {"staffs": staffs})
 """
 
+
+def manage_participant(request):
+    participant = Participants.objects.all()
+    return render(request, "Staff_templates/paticipant_list.html", {"participants": participant})
+
+
 def save_staff(request):
     if request.method!="POST":
         return HttpResponse("Method Not Allowed")
@@ -42,7 +48,7 @@ def save_staff(request):
 
 def add_competition(request):
     staff = Staffs.objects.all()
-    return render(request, "register_test.html", {"staffs": staff})
+    return render(request, "Staff_templates/register_test.html", {"staffs": staff})
 
 def save_competition(request):
     if request.method!="POST":
@@ -83,7 +89,7 @@ def edit_feedback_save(request):
 
             user.save()
             messages.success(request, "Successfully replied to Staff. ")
-            return HttpResponseRedirect("/edit_participant_reply/" + feed_id)
+            return HttpResponseRedirect("/view_feedback")
         except:
             messages.error(request, "Failed to reply to Staff.")
             return HttpResponseRedirect("/edit_participant_reply/" + feed_id)
@@ -119,4 +125,16 @@ def save_question(request):
         except:
             messages.error(request,"Ooops, something went wrong!")
             return HttpResponseRedirect("/add_question")
+
+
+def mock_test_list(request):
+    tests=CompetitionType.objects.all()
+    print(request.user.user_type)
+    if request.user.user_type == "2":
+        messages.info(request, "You are a participant you can appear in test if you want!")
+    elif request.user.user_type == "3":
+        messages.warning(request, 'Seems you are a Staff you can not visit test page.')
+    else:
+        messages.error(request, 'Seems you are Admin you can not visit test page.')
+    return render(request, "Staff_templates/mock_test_list.html", {"tests": tests})
 

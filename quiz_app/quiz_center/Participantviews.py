@@ -103,10 +103,6 @@ def delete_staff(request,staff_id):
     return render(request, "hod_templates/manage_staff_template.html", {"staffs": staffs})
 """
 
-def manage_participant(request):
-    participant = Participants.objects.all()
-    return render(request, "paticipant_list.html", {"participants": participant})
-
 def selected_question(request,exam_id):
     all_ques=QuestionBank.objects.filter(competition_id=exam_id)
     competition=CompetitionType.objects.get(id=exam_id)
@@ -142,7 +138,8 @@ def available_mock_test(request):
     print(request.user.user_type)
     if request.user.user_type == "2":
         messages.info(request, "You are a participant you can appear in test if you want!")
-        return render(request, "Participant_templates/mock_test.html", {"tests": tests})
+    elif request.user.user_type == "3":
+        messages.warning(request, 'Seems you are a Staff you can not visit test page.')
     else:
-        messages.warning(request, 'Seems you are not a participant you can not visit test page.')
-        return render(request, "Participant_templates/mock_test.html", {"tests": tests})
+        messages.error(request, 'Seems you are Admin you can not visit test page.')
+    return render(request, "Participant_templates/mock_test.html", {"tests": tests})

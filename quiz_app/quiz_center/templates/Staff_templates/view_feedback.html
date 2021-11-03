@@ -49,7 +49,7 @@
 
 					<nav class="main-menu">
 						<ul>
-							<li><a href="/staff_page#competition">Available Mock Test</a></li>
+							<li><a href="/mock_test_list">Available Mock Test</a></li>
                             <li><a href="/add_competition">Add Mock Test</a></li>
 							<li><a href="/manage_participant">Registered Students</a></li>
 							<li><a href="/view_feedback">View Feedback</a></li>
@@ -80,19 +80,21 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- Page info end -->
     <br>
-<section class="content">
+
+
+	<section class="content">
       <div class="container-fluid">
-          <div class="row">
-              <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="card card-primary">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
 
               <!-- /.card-header -->
-              <!-- form start -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+				<div class="form-group">
+					<div class="card-body table-responsive p-0">
+                	<table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -113,21 +115,37 @@
                       <td>{{ feed.created_at }}</td>
                     <td>{{ feed.feedback }}</td>
                       <td>{{ feed.feedback_reply }}</td>
-                    <td><a href="/edit_participant_reply/{{feed.id }}" class="btn btn-success">Reply</a> </td>
+					<td>
+						{% if feed.feedback_reply %}
+							<a href="" class="btn btn-info" onclick="alert('Already replied to this feedback!');">Replied</a>
+						{% else %}
+							<a href="/edit_participant_reply/{{ feed.id }}" class="btn btn-success">Reply</a>
+						{% endif %}
+
+					</td>
                   </tr>
                   {% endfor %}
                   </tbody>
                 </table>
-              </div>
-            </div>
+              		</div>
+
+              <!-- /.card-body -->
+            	</div>
             <!-- /.card -->
-
-
-
           </div>
-          </div>
+        </div>
+        <!-- /.row -->
       </div>
+	  </div>
     </section>
+	<script type="text/javascript">
+   function clickAndDisable(link) {
+     // disable subsequent clicks
+     link.onclick = function(event) {
+        event.preventDefault();
+     }
+   }
+	</script>
 	<script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
 	<script src='{% static "js/bootstrap.min.js" %}'></script>
 	<script src='{% static "js/mixitup.min.js" %}'></script>
